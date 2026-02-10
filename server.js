@@ -64,27 +64,24 @@ function calculateLCM(arr) {
 
 async function getAIResponse(question) {
   try {
-    // Check if API key exists
-    if (!process.env.GEMINI_API_KEY) {
-      throw new Error('GEMINI_API_KEY not configured');
-    }
-
     const { GoogleGenerativeAI } = require('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     
-    // Use the latest model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // UPDATED: Use gemini-2.0-flash instead of deprecated gemini-pro
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    const prompt = `Q: ${question}\nA (1-3 words only):`;
+    const prompt = `Answer the following question with a single word or very short phrase (maximum 3 words). Question: ${question}`;
     
     const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const response = await result.response;
+    const text = response.text().trim();
     
-    // Clean and return
-    return text.split(/\s+/).slice(0, 3).join(' ');
+    // Extract single word or short answer
+    const words = text.split(/\s+/);
+    return words.length > 3 ? words.slice(0, 3).join(' ') : text;
   } catch (error) {
-    console.error('Full AI Error:', JSON.stringify(error, null, 2));
-    throw new Error(error.message || 'AI service unavailable');
+    console.error('AI Error:', error);
+    throw new Error('AI service unavailable');
   }
 }
 // POST /bfhl endpoint
