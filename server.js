@@ -68,7 +68,7 @@ async function getAIResponse(question) {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     
     // UPDATED: Use gemini-2.0-flash instead of deprecated gemini-pro
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `Answer the following question with a single word or very short phrase (maximum 3 words). Question: ${question}`;
     
