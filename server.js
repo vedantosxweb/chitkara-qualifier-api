@@ -87,7 +87,6 @@ async function getAIResponse(question) {
     throw new Error(error.message || 'AI service unavailable');
   }
 }
-
 // POST /bfhl endpoint
 app.post('/bfhl', async (req, res) => {
   try {
