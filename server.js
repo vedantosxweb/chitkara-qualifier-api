@@ -69,7 +69,7 @@ async function getAIResponse(question) {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',  // or 'gemini-2.5-flash'
+      model: 'gemini-2.5-flash',  // or 'gemini-2.5-flash'
       contents: `Answer the following question with a single word or very short phrase (maximum 3 words). Question: ${question}`,
     });
 
